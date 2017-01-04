@@ -236,6 +236,8 @@ set(SOURCES
     RangeTree.cpp
     RangeTree.h
     RangeTreeBuilder.h
+    CxxDocument.cpp
+    CxxDocument.h
     ${MOC_HEADERS}
 )
 
