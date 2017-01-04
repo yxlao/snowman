@@ -13,7 +13,7 @@
 #include "RangeTree.h"
 
 namespace nc {
-namespace gui {
+namespace core {
 
 class RangeNodeAndPosition {
     RangeNode *node_;
@@ -57,6 +57,6 @@ public:
     }
 };
 
-}} // namespace nc::gui
+}} // namespace nc::core
 
 /* vim:set et sts=4 sw=4: */

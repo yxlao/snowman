@@ -232,6 +232,10 @@ set(SOURCES
     mangling/DefaultDemangler.cpp
     mangling/DefaultDemangler.h
     mangling/Demangler.h
+    RangeNode.h
+    RangeTree.cpp
+    RangeTree.h
+    RangeTreeBuilder.h
     ${MOC_HEADERS}
 )
 

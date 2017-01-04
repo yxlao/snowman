@@ -16,9 +16,7 @@ namespace nc {
 
 namespace core { namespace likec {
     class TreeNode;
-}}
-
-namespace gui {
+}
 
 class RangeNode {
     void *data_;
@@ -65,6 +63,6 @@ public:
     }
 };
 
-}} // namespace nc::gui
+}} // namespace nc::core
 
 /* vim:set et sts=4 sw=4: */

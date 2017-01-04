@@ -35,7 +35,7 @@
 #include <nc/common/Range.h>
 #include <nc/common/Types.h>
 
-#include "RangeTree.h"
+#include <nc/core/RangeTree.h>
 
 namespace nc {
 
@@ -70,9 +70,9 @@ class CxxDocument: public QTextDocument {
     Q_OBJECT
 
     std::shared_ptr<const core::Context> context_;
-    RangeTree rangeTree_;
-    boost::unordered_map<const core::likec::TreeNode *, const RangeNode *> node2rangeNode_;
-    boost::unordered_map<const core::arch::Instruction *, std::vector<const RangeNode *>> instruction2rangeNodes_;
+    core::RangeTree rangeTree_;
+    boost::unordered_map<const core::likec::TreeNode *, const core::RangeNode *> node2rangeNode_;
+    boost::unordered_map<const core::arch::Instruction *, std::vector<const core::RangeNode *>> instruction2rangeNodes_;
     boost::unordered_map<const core::likec::Declaration *, std::vector<const core::likec::TreeNode *>> declaration2uses_;
     boost::unordered_map<const core::likec::LabelDeclaration *, const core::likec::LabelStatement *> label2statement_;
     boost::unordered_map<const core::likec::FunctionDeclaration *, const core::likec::FunctionDefinition *> functionDeclaration2definition_;
@@ -171,7 +171,7 @@ private Q_SLOTS:
     void onContentsChange(int position, int charsRemoved, int charsAdded);
 
 private:
-    void computeReverseMappings(const RangeNode *rangeNode);
+    void computeReverseMappings(const core::RangeNode *rangeNode);
     void replaceText(const Range<int> &range, const QString &text);
 };
 

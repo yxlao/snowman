@@ -44,19 +44,19 @@
 #include <nc/core/likec/VariableDeclaration.h>
 #include <nc/core/likec/VariableIdentifier.h>
 
-#include "RangeTreeBuilder.h"
+#include <nc/core/RangeTreeBuilder.h>
 
 namespace nc { namespace gui {
 
 namespace {
 
-QString printTree(const core::likec::Tree &tree, RangeTree &rangeTree) {
+QString printTree(const core::likec::Tree &tree, core::RangeTree &rangeTree) {
     class Callback: public PrintCallback<const core::likec::TreeNode *> {
-        RangeTreeBuilder builder_;
+        core::RangeTreeBuilder builder_;
         const QString &out_;
 
     public:
-        Callback(RangeTree &tree, const QString &out) : builder_(tree), out_(out) {}
+        Callback(core::RangeTree &tree, const QString &out) : builder_(tree), out_(out) {}
 
         void onStartPrinting(const core::likec::TreeNode *node) override {
             builder_.onStart((void *)(node), out_.size());
@@ -75,7 +75,7 @@ QString printTree(const core::likec::Tree &tree, RangeTree &rangeTree) {
     return result;
 }
 
-inline const core::likec::TreeNode *getNode(const RangeNode *rangeNode) {
+inline const core::likec::TreeNode *getNode(const core::RangeNode *rangeNode) {
     return (const core::likec::TreeNode *)rangeNode->data();
 }
 
@@ -96,7 +96,7 @@ CxxDocument::CxxDocument(QObject *parent, std::shared_ptr<const core::Context> c
     connect(this, SIGNAL(contentsChange(int, int, int)), this, SLOT(onContentsChange(int, int, int)));
 }
 
-void CxxDocument::computeReverseMappings(const RangeNode *rangeNode) {
+void CxxDocument::computeReverseMappings(const core::RangeNode *rangeNode) {
     assert(rangeNode != nullptr);
 
     auto node = getNode(rangeNode);
