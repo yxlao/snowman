@@ -79,7 +79,7 @@ void openFileForWritingAndCall(const QString &filename, T functor) {
     }
 }
 
-void printSections(nc::core::Context& context, QTextStream &out) {
+void printSections(nc::core::Context &context, QTextStream &out) {
     foreach (auto section, context.image()->sections()) {
         QString flags;
         if (section->isReadable()) {
@@ -109,7 +109,7 @@ void printSections(nc::core::Context& context, QTextStream &out) {
     }
 }
 
-void printSymbols(nc::core::Context& context, QTextStream &out) {
+void printSymbols(nc::core::Context &context, QTextStream &out) {
     foreach (const auto *symbol, context.image()->symbols()) {
         QString value;
         if (symbol->value()) {
@@ -123,7 +123,7 @@ void printSymbols(nc::core::Context& context, QTextStream &out) {
     }
 }
 
-void printRegionGraphs(nc::core::Context& context, QTextStream &out) {
+void printRegionGraphs(nc::core::Context &context, QTextStream &out) {
     out << "digraph Functions { compound=true; " << endl;
     foreach (const auto *function, context.functions()->list()) {
         context.graphs()->at(function)->print(out);
@@ -131,7 +131,7 @@ void printRegionGraphs(nc::core::Context& context, QTextStream &out) {
     out << "}" << endl;
 }
 
-void printRanges(nc::core::Context& context, QTextStream &out) {
+void printRanges(nc::core::Context &context, QTextStream &out) {
     nc::core::likec::CxxDocument document(&context);
 
     foreach (const auto &instr, context.instructions()->all()) {
