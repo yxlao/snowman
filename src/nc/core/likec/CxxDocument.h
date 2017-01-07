@@ -129,15 +129,6 @@ public:
     }
 
     /**
-     * Replaces the text of all identifiers referring to the given declaration
-     * with the given name.
-     *
-     * \param declaration Valid pointer to a declaration.
-     * \param newName New name.
-     */
-    void rename(const Declaration *declaration, const QString &newName);
-
-    /**
      * \return The text of the document.
      */
     QString getText() const { return text_; }
