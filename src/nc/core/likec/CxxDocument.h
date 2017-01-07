@@ -64,7 +64,6 @@ class TreeNode;
  * Text document containing C++ listing.
  */
 class CxxDocument {
-    const Context *context_;
     RangeTree rangeTree_;
     QString text_;
     boost::unordered_map<const TreeNode *, const RangeNode *> node2rangeNode_;

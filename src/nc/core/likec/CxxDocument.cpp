@@ -80,11 +80,9 @@ inline const TreeNode *getNode(const RangeNode *rangeNode) {
 
 } // anonymous namespace
 
-CxxDocument::CxxDocument(const Context *context):
-    context_(context)
-{
-    if (context_ && context_->tree()) {
-        setText(printTree(*context_->tree(), rangeTree_));
+CxxDocument::CxxDocument(const Context *context) {
+    if (context && context->tree()) {
+        setText(printTree(*context->tree(), rangeTree_));
         if (rangeTree_.root()) {
             computeReverseMappings(rangeTree_.root());
         }
