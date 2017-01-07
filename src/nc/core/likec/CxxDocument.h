@@ -64,7 +64,7 @@ class TreeNode;
  * Text document containing C++ listing.
  */
 class CxxDocument {
-    std::shared_ptr<const core::Context> context_;
+    const core::Context *context_;
     RangeTree rangeTree_;
     QString text_;
     boost::unordered_map<const TreeNode *, const RangeNode *> node2rangeNode_;
@@ -79,7 +79,7 @@ public:
      *
      * \param context Pointer to the context. Can be nullptr.
      */
-    CxxDocument(std::shared_ptr<const core::Context> context = nullptr);
+    CxxDocument(const core::Context *context);
 
     /**
      * \return Pointer to the deepest tree node at the given position. Can be nullptr.

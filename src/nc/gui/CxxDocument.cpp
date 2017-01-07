@@ -51,7 +51,7 @@ namespace nc { namespace gui {
 
 CxxDocument::CxxDocument(QObject *parent, std::shared_ptr<const core::Context> context):
     QTextDocument(parent),
-    core::likec::CxxDocument(context),
+    core::likec::CxxDocument(context.get()),
     context_(std::move(context))
 {
     setDocumentLayout(new QPlainTextDocumentLayout(this));

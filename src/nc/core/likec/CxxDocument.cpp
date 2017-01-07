@@ -80,8 +80,8 @@ inline const TreeNode *getNode(const RangeNode *rangeNode) {
 
 } // anonymous namespace
 
-CxxDocument::CxxDocument(std::shared_ptr<const core::Context> context):
-    context_(std::move(context))
+CxxDocument::CxxDocument(const core::Context *context):
+    context_(context)
 {
     if (context_ && context_->tree()) {
         setText(printTree(*context_->tree(), rangeTree_));

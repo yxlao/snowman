@@ -79,8 +79,8 @@ void openFileForWritingAndCall(const QString &filename, T functor) {
     }
 }
 
-void printSections(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
-    foreach (auto section, context->image()->sections()) {
+void printSections(nc::core::Context& context, QTextStream &out) {
+    foreach (auto section, context.image()->sections()) {
         QString flags;
         if (section->isReadable()) {
             flags += QLatin1String("r");
@@ -103,14 +103,14 @@ void printSections(std::shared_ptr<nc::core::Context> context, QTextStream &out)
         out << QString(QLatin1String("section name = '%1', start = 0x%2, size = 0x%3, flags = %4"))
             .arg(section->name()).arg(section->addr(), 0, 16).arg(section->size(), 0, 16).arg(flags) << endl;
     }
-    auto entrypoint = context->image()->entrypoint();
+    auto entrypoint = context.image()->entrypoint();
     if (entrypoint) {
         out << QString(QLatin1String("entry point = 0x%1")).arg(*entrypoint, 0, 16) << endl;
     }
 }
 
-void printSymbols(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
-    foreach (const auto *symbol, context->image()->symbols()) {
+void printSymbols(nc::core::Context& context, QTextStream &out) {
+    foreach (const auto *symbol, context.image()->symbols()) {
         QString value;
         if (symbol->value()) {
             value = QString("%1").arg(*symbol->value(), 0, 16);
@@ -123,25 +123,26 @@ void printSymbols(std::shared_ptr<nc::core::Context> context, QTextStream &out) 
     }
 }
 
-void printRegionGraphs(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
+void printRegionGraphs(nc::core::Context& context, QTextStream &out) {
     out << "digraph Functions { compound=true; " << endl;
-    foreach (const auto *function, context->functions()->list()) {
-        context->graphs()->at(function)->print(out);
+    foreach (const auto *function, context.functions()->list()) {
+        context.graphs()->at(function)->print(out);
     }
     out << "}" << endl;
 }
 
-void printRanges(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
-    auto document = new nc::core::likec::CxxDocument(context);
+void printRanges(nc::core::Context& context, QTextStream &out) {
+    auto document = new nc::core::likec::CxxDocument(&context);
 
-    foreach (const auto &instr, context->instructions()->all()) {
+    foreach (const auto &instr, context.instructions()->all()) {
         auto addr = QString("%1").arg(instr->addr(), sizeof(unsigned long long int), 16, QChar('0'));
 
         std::vector<nc::Range<int>> ranges;
         document->getRanges(&(*instr), ranges);
 
-        foreach (auto range, ranges)
+        foreach (auto range, ranges) {
             out << "0x" << addr << " " << range.start() << endl;
+        }
     }
 
     delete document;
@@ -256,15 +257,15 @@ int main(int argc, char *argv[]) {
             throw nc::Exception("no input files");
         }
 
-        auto context = std::make_shared<nc::core::Context>();
+        nc::core::Context context;
 
         if (verbose) {
-            context->setLogToken(nc::LogToken(std::make_shared<nc::StreamLogger>(qerr)));
+            context.setLogToken(nc::LogToken(std::make_shared<nc::StreamLogger>(qerr)));
         }
 
         foreach (const QString &filename, files) {
             try {
-                nc::core::Driver::parse(*context, filename);
+                nc::core::Driver::parse(context, filename);
             } catch (const nc::Exception &e) {
                 throw nc::Exception(filename + ":" + e.unicodeWhat());
             } catch (const std::exception &e) {
@@ -276,16 +277,16 @@ int main(int argc, char *argv[]) {
         openFileForWritingAndCall(symbolsFile, [&](QTextStream &out) { printSymbols(context, out); });
 
         if (!instructionsFile.isEmpty() || !cfgFile.isEmpty() || !irFile.isEmpty() || !regionsFile.isEmpty() || !cxxFile.isEmpty() || !rangeFile.isEmpty()) {
-            nc::core::Driver::disassemble(*context);
-            openFileForWritingAndCall(instructionsFile, [&](QTextStream &out) { context->instructions()->print(out); });
+            nc::core::Driver::disassemble(context);
+            openFileForWritingAndCall(instructionsFile, [&](QTextStream &out) { context.instructions()->print(out); });
 
             if (!cfgFile.isEmpty() || !irFile.isEmpty() || !regionsFile.isEmpty() || !cxxFile.isEmpty() || !rangeFile.isEmpty()) {
-                nc::core::Driver::decompile(*context);
+                nc::core::Driver::decompile(context);
 
-                openFileForWritingAndCall(cfgFile,     [&](QTextStream &out) { context->program()->print(out); });
-                openFileForWritingAndCall(irFile,      [&](QTextStream &out) { context->functions()->print(out); });
+                openFileForWritingAndCall(cfgFile,     [&](QTextStream &out) { context.program()->print(out); });
+                openFileForWritingAndCall(irFile,      [&](QTextStream &out) { context.functions()->print(out); });
                 openFileForWritingAndCall(regionsFile, [&](QTextStream &out) { printRegionGraphs(context, out); });
-                openFileForWritingAndCall(cxxFile,     [&](QTextStream &out) { context->tree()->print(out); });
+                openFileForWritingAndCall(cxxFile,     [&](QTextStream &out) { context.tree()->print(out); });
                 openFileForWritingAndCall(rangeFile,   [&](QTextStream &out) { printRanges(context, out); });
             }
         }
