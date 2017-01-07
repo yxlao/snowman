@@ -135,7 +135,7 @@ void printRanges(nc::core::Context& context, QTextStream &out) {
     nc::core::likec::CxxDocument document(&context);
 
     foreach (const auto &instr, context.instructions()->all()) {
-        auto addr = QString("%1").arg(instr->addr(), sizeof(unsigned long long int), 16, QChar('0'));
+        auto addr = QString("%1").arg(instr->addr(), sizeof(instr->addr()) * CHAR_BIT / 4, 16, QChar('0'));
 
         std::vector<nc::Range<int>> ranges;
         document.getRanges(&(*instr), ranges);
