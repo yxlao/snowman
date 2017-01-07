@@ -132,10 +132,6 @@ void printRegionGraphs(std::shared_ptr<nc::core::Context> context, QTextStream &
 }
 
 void printRanges(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
-    if (context->instructions()->all().empty()) {
-        throw nc::Exception("no instructions to map");
-    }
-
     auto document = new nc::core::likec::CxxDocument(context);
 
     foreach (const auto &instr, context->instructions()->all()) {
