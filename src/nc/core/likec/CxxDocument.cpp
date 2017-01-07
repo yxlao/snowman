@@ -82,7 +82,7 @@ inline const TreeNode *getNode(const RangeNode *rangeNode) {
 
 CxxDocument::CxxDocument(const Context *context) {
     if (context && context->tree()) {
-        setText(printTree(*context->tree(), rangeTree_));
+        text_ = printTree(*context->tree(), rangeTree_);
         if (rangeTree_.root()) {
             computeReverseMappings(rangeTree_.root());
         }

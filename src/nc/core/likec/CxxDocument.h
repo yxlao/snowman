@@ -138,14 +138,13 @@ public:
     void rename(const Declaration *declaration, const QString &newName);
 
     /**
-     * \return set the Text.
+     * \return The text of the document.
      */
-    void setText(const QString &text) { text_ = QString(text); }
+    QString getText() const { return text_; }
 
     /**
      * \return Text in the given range.
      */
-    QString getText() const { return text_; }
     QString getText(const Range<int> &range) const;
 
     /**
