@@ -167,6 +167,8 @@ set(SOURCES
     likec/CompilationUnit.cpp
     likec/CompilationUnit.h
     likec/Continue.h
+    likec/CxxDocument.cpp
+    likec/CxxDocument.h
     likec/Declaration.h
     likec/DefaultLabel.h
     likec/DoWhile.cpp
@@ -229,8 +231,6 @@ set(SOURCES
     likec/VariableIdentifier.h
     likec/While.cpp
     likec/While.h
-    likec/CxxDocument.cpp
-    likec/CxxDocument.h
     mangling/DefaultDemangler.cpp
     mangling/DefaultDemangler.h
     mangling/Demangler.h
