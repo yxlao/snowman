@@ -80,7 +80,7 @@ inline const TreeNode *getNode(const RangeNode *rangeNode) {
 
 } // anonymous namespace
 
-CxxDocument::CxxDocument(const core::Context *context):
+CxxDocument::CxxDocument(const Context *context):
     context_(context)
 {
     if (context_ && context_->tree()) {
@@ -98,9 +98,9 @@ void CxxDocument::computeReverseMappings(const RangeNode *rangeNode) {
 
     node2rangeNode_[node] = rangeNode;
 
-    const core::ir::Statement *statement;
-    const core::ir::Term *term;
-    const core::arch::Instruction *instruction;
+    const ir::Statement *statement;
+    const ir::Term *term;
+    const arch::Instruction *instruction;
 
     getOrigin(node, statement, term, instruction);
 
@@ -157,7 +157,7 @@ Range<int> CxxDocument::getRange(const TreeNode *node) const {
     return Range<int>();
 }
 
-void CxxDocument::getRanges(const core::arch::Instruction *instruction, std::vector<Range<int>> &result) const {
+void CxxDocument::getRanges(const arch::Instruction *instruction, std::vector<Range<int>> &result) const {
     assert(instruction != nullptr);
 
     const auto &rangeNodes = nc::find(instruction2rangeNodes_, instruction);
@@ -173,8 +173,8 @@ QString CxxDocument::getText(const Range<int> &range) const {
     return text_.mid(range.start(), range.length());
 }
 
-void CxxDocument::getOrigin(const TreeNode *node, const core::ir::Statement *&statement,
-                            const core::ir::Term *&term, const core::arch::Instruction *&instruction)
+void CxxDocument::getOrigin(const TreeNode *node, const ir::Statement *&statement,
+                            const ir::Term *&term, const arch::Instruction *&instruction)
 {
     assert(node != nullptr);
 

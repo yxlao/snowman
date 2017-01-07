@@ -64,11 +64,11 @@ class TreeNode;
  * Text document containing C++ listing.
  */
 class CxxDocument {
-    const core::Context *context_;
+    const Context *context_;
     RangeTree rangeTree_;
     QString text_;
     boost::unordered_map<const TreeNode *, const RangeNode *> node2rangeNode_;
-    boost::unordered_map<const core::arch::Instruction *, std::vector<const RangeNode *>> instruction2rangeNodes_;
+    boost::unordered_map<const arch::Instruction *, std::vector<const RangeNode *>> instruction2rangeNodes_;
     boost::unordered_map<const Declaration *, std::vector<const TreeNode *>> declaration2uses_;
     boost::unordered_map<const LabelDeclaration *, const LabelStatement *> label2statement_;
     boost::unordered_map<const FunctionDeclaration *, const FunctionDefinition *> functionDeclaration2definition_;
@@ -79,7 +79,7 @@ public:
      *
      * \param context Pointer to the context. Can be nullptr.
      */
-    CxxDocument(const core::Context *context);
+    CxxDocument(const Context *context);
 
     /**
      * \return Pointer to the deepest tree node at the given position. Can be nullptr.
@@ -102,7 +102,7 @@ public:
      * \param instruction Valid pointer to an instruction.
      * \param[out] result List of ranges occupied by the nodes generated from this instruction.
      */
-    void getRanges(const core::arch::Instruction *instruction, std::vector<Range<int>> &result) const;
+    void getRanges(const arch::Instruction *instruction, std::vector<Range<int>> &result) const;
 
     /**
      * \param declaration Valid pointer to a declaration tree node.
@@ -158,8 +158,8 @@ public:
      * \param[out] term         Original term.
      * \param[out] instruction  Original instruction.
      */
-    static void getOrigin(const TreeNode *node, const core::ir::Statement *&statement,
-                          const core::ir::Term *&term, const core::arch::Instruction *&instruction);
+    static void getOrigin(const TreeNode *node, const ir::Statement *&statement,
+                          const ir::Term *&term, const arch::Instruction *&instruction);
 
     /**
      * \param node Valid pointer to a tree node.
