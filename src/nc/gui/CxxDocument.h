@@ -35,8 +35,8 @@
 #include <nc/common/Range.h>
 #include <nc/common/Types.h>
 
-#include <nc/core/RangeTree.h>
-#include <nc/core/CxxDocument.h>
+#include <nc/common/RangeTree.h>
+#include <nc/core/likec/CxxDocument.h>
 
 namespace nc {
 
@@ -67,13 +67,13 @@ namespace gui {
 /**
  * Text document containing C++ listing.
  */
-class CxxDocument: public QTextDocument, public core::CxxDocument {
+class CxxDocument: public QTextDocument, public core::likec::CxxDocument {
     Q_OBJECT
 
     std::shared_ptr<const core::Context> context_;
-    core::RangeTree rangeTree_;
-    boost::unordered_map<const core::likec::TreeNode *, const core::RangeNode *> node2rangeNode_;
-    boost::unordered_map<const core::arch::Instruction *, std::vector<const core::RangeNode *>> instruction2rangeNodes_;
+    RangeTree rangeTree_;
+    boost::unordered_map<const core::likec::TreeNode *, const RangeNode *> node2rangeNode_;
+    boost::unordered_map<const core::arch::Instruction *, std::vector<const RangeNode *>> instruction2rangeNodes_;
     boost::unordered_map<const core::likec::Declaration *, std::vector<const core::likec::TreeNode *>> declaration2uses_;
     boost::unordered_map<const core::likec::LabelDeclaration *, const core::likec::LabelStatement *> label2statement_;
     boost::unordered_map<const core::likec::FunctionDeclaration *, const core::likec::FunctionDefinition *> functionDeclaration2definition_;
@@ -105,7 +105,7 @@ private Q_SLOTS:
     void onContentsChange(int position, int charsRemoved, int charsAdded);
 
 private:
-    void computeReverseMappings(const core::RangeNode *rangeNode);
+    void computeReverseMappings(const RangeNode *rangeNode);
     void replaceText(const Range<int> &range, const QString &text);
 };
 

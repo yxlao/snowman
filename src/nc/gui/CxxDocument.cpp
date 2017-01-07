@@ -44,20 +44,20 @@
 #include <nc/core/likec/VariableDeclaration.h>
 #include <nc/core/likec/VariableIdentifier.h>
 
-#include <nc/core/RangeTreeBuilder.h>
-#include <nc/core/CxxDocument.h>
+#include <nc/common/RangeTreeBuilder.h>
+#include <nc/core/likec/CxxDocument.h>
 
 namespace nc { namespace gui {
 
 CxxDocument::CxxDocument(QObject *parent, std::shared_ptr<const core::Context> context):
     QTextDocument(parent),
-    core::CxxDocument(context),
+    core::likec::CxxDocument(context),
     context_(std::move(context))
 {
     setDocumentLayout(new QPlainTextDocumentLayout(this));
 
     if (context_ && context_->tree()) {
-        setPlainText(core::CxxDocument::getText());
+        setPlainText(core::likec::CxxDocument::getText());
     }
 
     connect(this, SIGNAL(contentsChange(int, int, int)), this, SLOT(onContentsChange(int, int, int)));

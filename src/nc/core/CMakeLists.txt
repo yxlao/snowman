@@ -229,15 +229,11 @@ set(SOURCES
     likec/VariableIdentifier.h
     likec/While.cpp
     likec/While.h
+    likec/CxxDocument.cpp
+    likec/CxxDocument.h
     mangling/DefaultDemangler.cpp
     mangling/DefaultDemangler.h
     mangling/Demangler.h
-    RangeNode.h
-    RangeTree.cpp
-    RangeTree.h
-    RangeTreeBuilder.h
-    CxxDocument.cpp
-    CxxDocument.h
     ${MOC_HEADERS}
 )
 

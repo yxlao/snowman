@@ -35,7 +35,7 @@
 
 #include <QString>
 
-#include "RangeTree.h"
+#include <nc/common/RangeTree.h>
 
 namespace nc {
 
@@ -51,14 +51,14 @@ namespace core {
         class Term;
     }
 
-    namespace likec {
-        class Declaration;
-        class FunctionDeclaration;
-        class FunctionDefinition;
-        class LabelDeclaration;
-        class LabelStatement;
-        class TreeNode;
-    }
+namespace likec {
+
+class Declaration;
+class FunctionDeclaration;
+class FunctionDefinition;
+class LabelDeclaration;
+class LabelStatement;
+class TreeNode;
 
 /**
  * Text document containing C++ listing.
@@ -67,11 +67,11 @@ class CxxDocument {
     std::shared_ptr<const core::Context> context_;
     RangeTree rangeTree_;
     QString text_;
-    boost::unordered_map<const core::likec::TreeNode *, const RangeNode *> node2rangeNode_;
+    boost::unordered_map<const TreeNode *, const RangeNode *> node2rangeNode_;
     boost::unordered_map<const core::arch::Instruction *, std::vector<const RangeNode *>> instruction2rangeNodes_;
-    boost::unordered_map<const core::likec::Declaration *, std::vector<const core::likec::TreeNode *>> declaration2uses_;
-    boost::unordered_map<const core::likec::LabelDeclaration *, const core::likec::LabelStatement *> label2statement_;
-    boost::unordered_map<const core::likec::FunctionDeclaration *, const core::likec::FunctionDefinition *> functionDeclaration2definition_;
+    boost::unordered_map<const Declaration *, std::vector<const TreeNode *>> declaration2uses_;
+    boost::unordered_map<const LabelDeclaration *, const LabelStatement *> label2statement_;
+    boost::unordered_map<const FunctionDeclaration *, const FunctionDefinition *> functionDeclaration2definition_;
 
 public:
     /**
@@ -84,19 +84,19 @@ public:
     /**
      * \return Pointer to the deepest tree node at the given position. Can be nullptr.
      */
-    const core::likec::TreeNode *getLeafAt(int position) const;
+    const TreeNode *getLeafAt(int position) const;
 
     /**
      * \return List of valid pointers to the nodes fully contained in the given range.
      */
-    std::vector<const core::likec::TreeNode *> getNodesIn(const Range<int> &range) const;
+    std::vector<const TreeNode *> getNodesIn(const Range<int> &range) const;
 
     /**
      * \param node Valid pointer to a tree node.
      *
      * \return Text range occupied by this node.
      */
-    Range<int> getRange(const core::likec::TreeNode *node) const;
+    Range<int> getRange(const TreeNode *node) const;
 
     /**
      * \param instruction Valid pointer to an instruction.
@@ -109,7 +109,7 @@ public:
      *
      * \return All the tree nodes using this declaration.
      */
-    const std::vector<const core::likec::TreeNode *> &getUses(const core::likec::Declaration *declaration) const {
+    const std::vector<const TreeNode *> &getUses(const Declaration *declaration) const {
         assert(declaration != nullptr);
         return nc::find(declaration2uses_, declaration);
     }
@@ -119,12 +119,12 @@ public:
      *
      * \return Pointer to the matching label statement. Can be nullptr.
      */
-    const core::likec::LabelStatement *getLabelStatement(const core::likec::LabelDeclaration *declaration) const {
+    const LabelStatement *getLabelStatement(const LabelDeclaration *declaration) const {
         assert(declaration != nullptr);
         return nc::find(label2statement_, declaration);
     }
 
-    const core::likec::FunctionDefinition *getFunctionDefinition(const core::likec::FunctionDeclaration *declaration) const {
+    const FunctionDefinition *getFunctionDefinition(const FunctionDeclaration *declaration) const {
         assert(declaration != nullptr);
         return nc::find(functionDeclaration2definition_, declaration);
     }
@@ -136,7 +136,7 @@ public:
      * \param declaration Valid pointer to a declaration.
      * \param newName New name.
      */
-    void rename(const core::likec::Declaration *declaration, const QString &newName);
+    void rename(const Declaration *declaration, const QString &newName);
 
     /**
      * \return set the Text.
@@ -158,7 +158,7 @@ public:
      * \param[out] term         Original term.
      * \param[out] instruction  Original instruction.
      */
-    static void getOrigin(const core::likec::TreeNode *node, const core::ir::Statement *&statement,
+    static void getOrigin(const TreeNode *node, const core::ir::Statement *&statement,
                           const core::ir::Term *&term, const core::arch::Instruction *&instruction);
 
     /**
@@ -166,7 +166,7 @@ public:
      *
      * \return Declaration of whatever identifier this node is. Can be nullptr.
      */
-    static const core::likec::Declaration *getDeclarationOfIdentifier(const core::likec::TreeNode *node);
+    static const Declaration *getDeclarationOfIdentifier(const TreeNode *node);
 
 protected:
     void computeReverseMappings(const RangeNode *rangeNode);
@@ -175,6 +175,6 @@ private:
     void replaceText(const Range<int> &range, const QString &text);
 };
 
-}} // namespace nc::core
+}}} // namespace nc::core::likec
 
 /* vim:set et sts=4 sw=4: */

@@ -43,24 +43,24 @@
 #include <nc/core/likec/VariableDeclaration.h>
 #include <nc/core/likec/VariableIdentifier.h>
 
-#include "RangeTreeBuilder.h"
+#include <nc/common/RangeTreeBuilder.h>
 
-namespace nc { namespace core {
+namespace nc { namespace core { namespace likec {
 
 namespace {
 
-QString printTree(const core::likec::Tree &tree, RangeTree &rangeTree) {
-    class Callback: public PrintCallback<const core::likec::TreeNode *> {
+QString printTree(const Tree &tree, RangeTree &rangeTree) {
+    class Callback: public PrintCallback<const TreeNode *> {
         RangeTreeBuilder builder_;
         const QString &out_;
 
     public:
         Callback(RangeTree &tree, const QString &out) : builder_(tree), out_(out) {}
 
-        void onStartPrinting(const core::likec::TreeNode *node) override {
+        void onStartPrinting(const TreeNode *node) override {
             builder_.onStart((void *)(node), out_.size());
         }
-        void onEndPrinting(const core::likec::TreeNode *node) override {
+        void onEndPrinting(const TreeNode *node) override {
             builder_.onEnd((void *)(node), out_.size());
         }
     };
@@ -74,8 +74,8 @@ QString printTree(const core::likec::Tree &tree, RangeTree &rangeTree) {
     return result;
 }
 
-inline const core::likec::TreeNode *getNode(const RangeNode *rangeNode) {
-    return (const core::likec::TreeNode *)rangeNode->data();
+inline const TreeNode *getNode(const RangeNode *rangeNode) {
+    return (const TreeNode *)rangeNode->data();
 }
 
 } // anonymous namespace
@@ -112,14 +112,14 @@ void CxxDocument::computeReverseMappings(const RangeNode *rangeNode) {
         declaration2uses_[declaration].push_back(node);
     }
 
-    if (auto declaration = node->as<core::likec::Declaration>()) {
-        if (auto definition = declaration->as<core::likec::FunctionDefinition>()) {
+    if (auto declaration = node->as<Declaration>()) {
+        if (auto definition = declaration->as<FunctionDefinition>()) {
             functionDeclaration2definition_[definition->getFirstDeclaration()] = definition;
         }
     }
 
-    if (auto *statement = node->as<core::likec::Statement>()) {
-        if (auto *labelStatement = statement->as<core::likec::LabelStatement>()) {
+    if (auto *statement = node->as<Statement>()) {
+        if (auto *labelStatement = statement->as<LabelStatement>()) {
             label2statement_[labelStatement->identifier()->declaration()] = labelStatement;
         }
     }
@@ -129,17 +129,17 @@ void CxxDocument::computeReverseMappings(const RangeNode *rangeNode) {
     }
 }
 
-const core::likec::TreeNode *CxxDocument::getLeafAt(int position) const {
+const TreeNode *CxxDocument::getLeafAt(int position) const {
     if (auto rangeNode = rangeTree_.getLeafAt(position)) {
         return getNode(rangeNode);
     }
     return nullptr;
 }
 
-std::vector<const core::likec::TreeNode *> CxxDocument::getNodesIn(const Range<int> &range) const {
+std::vector<const TreeNode *> CxxDocument::getNodesIn(const Range<int> &range) const {
     auto rangeNodes = rangeTree_.getNodesIn(range);
 
-    std::vector<const core::likec::TreeNode *> result;
+    std::vector<const TreeNode *> result;
     result.reserve(result.size());
 
     foreach (auto rangeNode, rangeNodes) {
@@ -149,7 +149,7 @@ std::vector<const core::likec::TreeNode *> CxxDocument::getNodesIn(const Range<i
     return result;
 }
 
-Range<int> CxxDocument::getRange(const core::likec::TreeNode *node) const {
+Range<int> CxxDocument::getRange(const TreeNode *node) const {
     assert(node != nullptr);
     if (auto rangeNode = nc::find(node2rangeNode_, node)) {
         return rangeTree_.getRange(rangeNode);
@@ -173,7 +173,7 @@ QString CxxDocument::getText(const Range<int> &range) const {
     return text_.mid(range.start(), range.length());
 }
 
-void CxxDocument::getOrigin(const core::likec::TreeNode *node, const core::ir::Statement *&statement,
+void CxxDocument::getOrigin(const TreeNode *node, const core::ir::Statement *&statement,
                             const core::ir::Term *&term, const core::arch::Instruction *&instruction)
 {
     assert(node != nullptr);
@@ -182,9 +182,9 @@ void CxxDocument::getOrigin(const core::likec::TreeNode *node, const core::ir::S
     term = nullptr;
     instruction = nullptr;
 
-    if (auto stmt = node->as<core::likec::Statement>()) {
+    if (auto stmt = node->as<Statement>()) {
         statement = stmt->statement();
-    } else if (auto expr = node->as<core::likec::Expression>()) {
+    } else if (auto expr = node->as<Expression>()) {
         term = expr->term();
         if (term) {
             statement = term->statement();
@@ -196,20 +196,20 @@ void CxxDocument::getOrigin(const core::likec::TreeNode *node, const core::ir::S
     }
 }
 
-const core::likec::Declaration *CxxDocument::getDeclarationOfIdentifier(const core::likec::TreeNode *node) {
+const Declaration *CxxDocument::getDeclarationOfIdentifier(const TreeNode *node) {
     assert(node != nullptr);
-    if (auto expression = node->as<core::likec::Expression>()) {
-        if (auto identifier = expression->as<core::likec::FunctionIdentifier>()) {
+    if (auto expression = node->as<Expression>()) {
+        if (auto identifier = expression->as<FunctionIdentifier>()) {
             return identifier->declaration();
-        } else if (auto identifier = expression->as<core::likec::LabelIdentifier>()) {
+        } else if (auto identifier = expression->as<LabelIdentifier>()) {
             return identifier->declaration();
-        } else if (auto identifier = expression->as<core::likec::VariableIdentifier>()) {
+        } else if (auto identifier = expression->as<VariableIdentifier>()) {
             return identifier->declaration();
         }
     }
     return nullptr;
 }
 
-}} // namespace nc::core
+}}} // namespace nc::core::likec
 
 /* vim:set et sts=4 sw=4: */

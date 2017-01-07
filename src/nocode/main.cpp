@@ -48,7 +48,7 @@
 #include <nc/core/ir/Terms.h>
 #include <nc/core/ir/cflow/Graphs.h>
 #include <nc/core/likec/Tree.h>
-#include <nc/core/CxxDocument.h>
+#include <nc/core/likec/CxxDocument.h>
 
 #include <QCoreApplication>
 #include <QFile>
@@ -136,7 +136,7 @@ void printRanges(std::shared_ptr<nc::core::Context> context, QTextStream &out) {
         throw nc::Exception("no instructions to map");
     }
 
-    auto document = new nc::core::CxxDocument(context);
+    auto document = new nc::core::likec::CxxDocument(context);
 
     foreach (const auto &instr, context->instructions()->all()) {
         auto addr = QString("%1").arg(instr->addr(), sizeof(unsigned long long int), 16, QChar('0'));
