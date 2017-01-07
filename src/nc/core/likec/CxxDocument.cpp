@@ -167,10 +167,6 @@ void CxxDocument::getRanges(const arch::Instruction *instruction, std::vector<Ra
     }
 }
 
-QString CxxDocument::getText(const Range<int> &range) const {
-    return text_.mid(range.start(), range.length());
-}
-
 void CxxDocument::getOrigin(const TreeNode *node, const ir::Statement *&statement,
                             const ir::Term *&term, const arch::Instruction *&instruction)
 {

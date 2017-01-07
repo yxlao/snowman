@@ -143,11 +143,6 @@ public:
     QString getText() const { return text_; }
 
     /**
-     * \return Text in the given range.
-     */
-    QString getText(const Range<int> &range) const;
-
-    /**
      * For a node, computes statement, term, and instruction, from which
      * this node has originated.
      *
