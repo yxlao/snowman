@@ -72,7 +72,7 @@ public:
      *
      * \return Formatting that must be used for that text element.
      */
-    const QTextCharFormat &getFormat(Element element) {
+    const QTextCharFormat &getFormat(Element element) const {
         return formats_[element];
     }
 
