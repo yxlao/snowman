@@ -91,31 +91,31 @@ private:
     boost::array<QTextCharFormat, ITEM_COUNT> formats_;
 
     void setTextColor(QColor color) { formats_[TEXT].setForeground(color); }
-    QColor textColor() { return formats_[TEXT].foreground().color(); }
+    QColor textColor() const { return formats_[TEXT].foreground().color(); }
 
     void setSingleLineCommentColor(QColor color) { formats_[SINGLE_LINE_COMMENT].setForeground(color); }
-    QColor singleLineCommentColor() { return formats_[SINGLE_LINE_COMMENT].foreground().color(); }
+    QColor singleLineCommentColor() const { return formats_[SINGLE_LINE_COMMENT].foreground().color(); }
 
     void setMultiLineCommentColor(QColor color) { formats_[MULTI_LINE_COMMENT].setForeground(color); }
-    QColor multiLineCommentColor() { return formats_[MULTI_LINE_COMMENT].foreground().color(); }
+    QColor multiLineCommentColor() const { return formats_[MULTI_LINE_COMMENT].foreground().color(); }
 
     void setKeywordColor(QColor color) { formats_[KEYWORD].setForeground(color); }
-    QColor keywordColor() { return formats_[KEYWORD].foreground().color(); }
+    QColor keywordColor() const { return formats_[KEYWORD].foreground().color(); }
 
     void setOperatorColor(QColor color) { formats_[OPERATOR].setForeground(color); }
-    QColor operatorColor() { return formats_[OPERATOR].foreground().color(); }
+    QColor operatorColor() const { return formats_[OPERATOR].foreground().color(); }
 
     void setNumberColor(QColor color) { formats_[NUMBER].setForeground(color); }
-    QColor numberColor() { return formats_[NUMBER].foreground().color(); }
+    QColor numberColor() const { return formats_[NUMBER].foreground().color(); }
 
     void setMacroColor(QColor color) { formats_[MACRO].setForeground(color); }
-    QColor macroColor() { return formats_[MACRO].foreground().color(); }
+    QColor macroColor() const { return formats_[MACRO].foreground().color(); }
 
     void setStringColor(QColor color) { formats_[STRING].setForeground(color); }
-    QColor stringColor() { return formats_[STRING].foreground().color(); }
+    QColor stringColor() const { return formats_[STRING].foreground().color(); }
 
     void setEscapeCharColor(QColor color) { formats_[ESCAPE_CHAR].setForeground(color); }
-    QColor escapeCharColor() { return formats_[ESCAPE_CHAR].foreground().color(); }
+    QColor escapeCharColor() const { return formats_[ESCAPE_CHAR].foreground().color(); }
 };
 
 /**
