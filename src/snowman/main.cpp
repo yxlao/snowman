@@ -32,6 +32,8 @@
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
 
+    app.setStyleSheet("nc--gui--CxxFormatting { qproperty-textColor: red; }");
+
     auto branding = nc::branding();
     branding.setApplicationName("Snowman");
 
