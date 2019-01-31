@@ -116,8 +116,9 @@ find_package(Boost 1.46.0 REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 # Choose which Qt version to look for.
+set(NC_QT5 TRUE)
 if(NOT DEFINED NC_QT5)
-    find_package(Qt5Core)
+    find_package(Qt5Core HINTS "/usr/local/Cellar/qt/5.12.0/lib/cmake")
 
     set(helpstring "Build using Qt5 rather than Qt4.")
     if(Qt5Core_DIR)
@@ -130,8 +131,10 @@ endif()
 
 if(${NC_QT5})
     # Find Qt5.
-    find_package(Qt5Core REQUIRED)
-    find_package(Qt5Widgets REQUIRED)
+    find_package(Qt5Core REQUIRED HINTS "/usr/local/Cellar/qt/5.12.0/lib/cmake")
+    find_package(Qt5Widgets REQUIRED HINTS "/usr/local/Cellar/qt/5.12.0/lib/cmake")
+    # find_package(Qt5Core REQUIRED)
+    # find_package(Qt5Widgets REQUIRED)
 
     set(CMAKE_AUTOMOC ON)
 
